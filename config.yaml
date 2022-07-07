@@ -1,4 +1,4 @@
-baseURL: "http://occurent.org/"
+baseURL: "http://occurent.org"
 languageCode: "en-us"
 title: "OCurrent"
 MetaDataFormat: "yaml"
