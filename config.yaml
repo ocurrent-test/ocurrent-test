@@ -1,4 +1,4 @@
-baseURL: "http://occurent.org"
+baseURL: "https://ocurrent-test.github.io/"
 languageCode: "en-us"
 title: "OCurrent"
 MetaDataFormat: "yaml"
