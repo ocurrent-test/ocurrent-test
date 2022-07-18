@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Examples on OCurrent</title>
+    <link>https://ocurrent-test.github.io/examples/</link>
+    <description>Recent content in Examples on OCurrent</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language><atom:link href="https://ocurrent-test.github.io/examples/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Build matrix</title>
+      <link>https://ocurrent-test.github.io/examples/02_build_matrix/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://ocurrent-test.github.io/examples/02_build_matrix/</guid>
+      <description>build_matrix.ml contains a slightly more advanced pipeline:
+let weekly = Current_cache.Schedule.v ~valid_for:(Duration.of_day 7) () (* Run &amp;#34;docker build&amp;#34; on the latest commit in Git repository [repo]. *) let pipeline ~repo () = let src = Git.Local.head_commit repo in let base = Docker.pull ~schedule:weekly &amp;#34;ocaml/opam2&amp;#34; in let build ocaml_version = let dockerfile = let+ base = base in dockerfile ~base ~ocaml_version in Docker.build ~label:ocaml_version ~pull:false ~dockerfile src |&amp;gt; Docker.tag ~tag:(Fmt.strf &amp;#34;example-%s&amp;#34; ocaml_version) in Current.</description>
+    </item>
+    
+    <item>
+      <title>Docker build local</title>
+      <link>https://ocurrent-test.github.io/examples/01_docker_build_local/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://ocurrent-test.github.io/examples/01_docker_build_local/</guid>
+      <description>This monitors a local Git repository (repo), from which it gets the current head commit. It copies it to a temporary clone and builds it with docker build /path/to/clone, then executes the example with --help to check that it runs.
+$ git clone https://github.com/talex5/ocurrent.git $ cd ocurrent/ $ dune exec -- ./examples/docker_build_local.exe . [...] current [INFO] Evaluation complete: Result: Pending Watching: [/home/user/ocurrent/#refs/heads/master; HEAD(/home/user/ocurrent/)] [...] current.docker [INFO] Build of docker image &amp;#34;build-of-d75e33fd875d80cd8e0cddf83904dd6d7aea12d3&amp;#34; succeeded [.</description>
+    </item>
+    
+  </channel>
+</rss>

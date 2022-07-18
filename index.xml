@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>OCurrent</title>
+    <link>https://ocurrent-test.github.io/</link>
+    <description>Recent content on OCurrent</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 22 Jan 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://ocurrent-test.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Build a website deployer with OCurrent</title>
+      <link>https://ocurrent-test.github.io/docs/tutorials/build-gatsby-deployer.md/</link>
+      <pubDate>Fri, 22 Jan 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://ocurrent-test.github.io/docs/tutorials/build-gatsby-deployer.md/</guid>
+      <description>This is a tutorial on how to use existing OCurrent plugins to build a continuous deployment service for your website. It will be relatively simple, but the concepts should transfer nicely.
+We will learn to:
+Monitor and pull in our site content from Github Configure an environment in the pipeline to build the site Build and deploy the site using Docker (in reality it will be more of a development type server) To show the flexibility of this approach the site won&amp;rsquo;t even be in OCaml, it will be a Gatsby website which uses Javascript and Node.</description>
+    </item>
+    
+    <item>
+      <title>Create an OCurrent Plugin</title>
+      <link>https://ocurrent-test.github.io/docs/tutorials/create-ocurrent-plugin/</link>
+      <pubDate>Fri, 22 Jan 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://ocurrent-test.github.io/docs/tutorials/create-ocurrent-plugin/</guid>
+      <description>Plugins for OCurrent are useful modules which provide a specific functionality using the underlying OCurrent primitives in order to do things like caching and automatic component generation.
+If you have worked through the other sections may already be familiar with some of the like:
+The Docker plugin for pulling, building and running docker images. The Github plugin for authenticating and using the Github API (the newer GraphQL one). The Git plugin for working with git repositories and being able to fetch from them.</description>
+    </item>
+    
+    <item>
+      <title>Introduction to incrementalism in OCurrent</title>
+      <link>https://ocurrent-test.github.io/docs/tutorials/introduction-incremntalism-ocurrrent/</link>
+      <pubDate>Fri, 22 Jan 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://ocurrent-test.github.io/docs/tutorials/introduction-incremntalism-ocurrrent/</guid>
+      <description>Welcome to the beginning of theses docs on building things with OCurrent &amp;ndash; an OCaml DSL for generating incremental pipelines to build&amp;hellip; well almost anything. This introductory chapter will give a solid understanding of the foundation upon which the OCurrent tower stands including:
+The core eDSL features and how it achieves incrementalism The notion of an OCurrent plugin The broad overview of the suite of existing OCurrent features Why be incremental?</description>
+    </item>
+    
+    <item>
+      <title>OBuilder</title>
+      <link>https://ocurrent-test.github.io/docs/tutorials/obuilder/</link>
+      <pubDate>Fri, 22 Jan 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://ocurrent-test.github.io/docs/tutorials/obuilder/</guid>
+      <description>Since it&amp;rsquo;s inception, Docker has taken the developer world by storm. Whether it&amp;rsquo;s mimicking larger complex system interactions like applications talking to servers with docker-compose, CI testing with simple dockerfiles or development environments for websites there are many use cases for docker. Docker relies on something called BuildKit. For OCluster this was too unreliable and not very flexible.
+OBuilder provides a high-level abstraction for build environments by providing an infrastructure centered on two key components: a snapshotting filesystem and an execution environment.</description>
+    </item>
+    
+    <item>
+      <title>OCluster</title>
+      <link>https://ocurrent-test.github.io/docs/tutorials/ocluster/</link>
+      <pubDate>Fri, 22 Jan 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://ocurrent-test.github.io/docs/tutorials/ocluster/</guid>
+      <description>In this section (and the following OBuilder section) we&amp;rsquo;ll look at two useful libraries that OCurrent provides to take your pipelines to the next level.
+The first, and topic of this section, is OCluster. OCluster manages builds on worker nodes, implement a scheduling service to accept new jobs and send them to workers based on some algorithm.
+The README of the OCluster repository is an excellent place to start; this documentation, however, will assume no prior knowledge except what was explained in the previous three sections.</description>
+    </item>
+    
+    <item>
+      <title>Writing your own plugin</title>
+      <link>https://ocurrent-test.github.io/docs/tutorials/write-your-own-plugin/</link>
+      <pubDate>Fri, 22 Jan 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://ocurrent-test.github.io/docs/tutorials/write-your-own-plugin/</guid>
+      <description>Writing plugins To create your own primitive operations (such as Docker.build), you&amp;rsquo;ll probably want to use the Current_cache library. This handles all the details of starting builds, recording the results, managing log files, etc.
+A minimal example looks something like this:
+# #require &amp;#34;lwt,current,current.cache&amp;#34;;; # open Lwt.Infix;; # open Current.Syntax;; # module Frob = struct type t = No_context module Key = Current.String module Value = Current.String let id = &amp;#34;frob&amp;#34; let build No_context job _key = (* Wait in a queue or wait for resources here if needed.</description>
+    </item>
+    
+    <item>
+      <title>OCaml-CI: A Zero-Configuration CI</title>
+      <link>https://ocurrent-test.github.io/docs/conf-and-papers/ocaml-ci-zero-conf/</link>
+      <pubDate>Fri, 28 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://ocurrent-test.github.io/docs/conf-and-papers/ocaml-ci-zero-conf/</guid>
+      <description>An overview of the OCaml-CI at the OCaml Workshop 2020</description>
+    </item>
+    
+    <item>
+      <title>CI/CD Pipelines: Monad, Arrow or Dart</title>
+      <link>https://ocurrent-test.github.io/blog/cicd-pipeline/</link>
+      <pubDate>Thu, 14 Nov 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://ocurrent-test.github.io/blog/cicd-pipeline/</guid>
+      <description>In this post I describe three approaches to building a language for writing CI/CD pipelines. My first attempt used a monad, but this prevented static analysis of the pipelines. I then tried using an arrow, but found the syntax very difficult to use&amp;hellip;</description>
+    </item>
+    
+    <item>
+      <title>Build matrix</title>
+      <link>https://ocurrent-test.github.io/examples/02_build_matrix/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://ocurrent-test.github.io/examples/02_build_matrix/</guid>
+      <description>build_matrix.ml contains a slightly more advanced pipeline:
+let weekly = Current_cache.Schedule.v ~valid_for:(Duration.of_day 7) () (* Run &amp;#34;docker build&amp;#34; on the latest commit in Git repository [repo]. *) let pipeline ~repo () = let src = Git.Local.head_commit repo in let base = Docker.pull ~schedule:weekly &amp;#34;ocaml/opam2&amp;#34; in let build ocaml_version = let dockerfile = let+ base = base in dockerfile ~base ~ocaml_version in Docker.build ~label:ocaml_version ~pull:false ~dockerfile src |&amp;gt; Docker.tag ~tag:(Fmt.strf &amp;#34;example-%s&amp;#34; ocaml_version) in Current.</description>
+    </item>
+    
+    <item>
+      <title>Disk cache</title>
+      <link>https://ocurrent-test.github.io/docs/ocurrent/doc/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://ocurrent-test.github.io/docs/ocurrent/doc/</guid>
+      <description>Disk cache</description>
+    </item>
+    
+    <item>
+      <title>Docker build local</title>
+      <link>https://ocurrent-test.github.io/examples/01_docker_build_local/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://ocurrent-test.github.io/examples/01_docker_build_local/</guid>
+      <description>This monitors a local Git repository (repo), from which it gets the current head commit. It copies it to a temporary clone and builds it with docker build /path/to/clone, then executes the example with --help to check that it runs.
+$ git clone https://github.com/talex5/ocurrent.git $ cd ocurrent/ $ dune exec -- ./examples/docker_build_local.exe . [...] current [INFO] Evaluation complete: Result: Pending Watching: [/home/user/ocurrent/#refs/heads/master; HEAD(/home/user/ocurrent/)] [...] current.docker [INFO] Build of docker image &amp;#34;build-of-d75e33fd875d80cd8e0cddf83904dd6d7aea12d3&amp;#34; succeeded [.</description>
+    </item>
+    
+    <item>
+      <title>Index</title>
+      <link>https://ocurrent-test.github.io/docs/ocurrent/ocurrent/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://ocurrent-test.github.io/docs/ocurrent/ocurrent/</guid>
+      <description>Index</description>
+    </item>
+    
+  </channel>
+</rss>

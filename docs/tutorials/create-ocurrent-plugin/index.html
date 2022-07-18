@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <title>Create an OCurrent Plugin</title>
+    <base href="https://ocurrent-test.github.io/" />
+    <meta charset="UTF-8" />
+    <meta
+        name="viewport"
+        content="width=device-width,initial-scale=1"
+    />
+    <link
+        rel="stylesheet"
+        type="text/css"
+        href="/syntax.css"
+    />
+    <link
+        rel="stylesheet"
+        type="text/css"
+        href="https://ocurrent-test.github.io//main.css"
+    />
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Quicksand:wght@700&display=swap"
+        rel="stylesheet"
+    />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap"
+        rel="stylesheet"
+    />
+</head>
+
+
+    <body>
+        <div id="menu">
+    <h1>
+        <a
+            href="/"
+            title="homepage"
+            >OCurrent</a
+        >
+    </h1>
+    <ul>
+        
+        <li>
+            <a
+                href="/blog"
+                title="blog"
+                >Blog</a
+            >
+        </li>
+        
+        <li>
+            <a
+                href="/docs"
+                title="docs"
+                >Docs</a
+            >
+        </li>
+        
+        <li>
+            <a
+                href="/examples"
+                title="examples"
+                >Examples</a
+            >
+        </li>
+        
+        <li>
+            <a
+                href="https://ocurrent.github.io/ocurrent/"
+                title="api"
+                >API</a
+            >
+        </li>
+        
+        <li>
+            <a
+                href="/community"
+                title="community"
+                >Community</a
+            >
+        </li>
+        
+    </ul>
+</div>
+
+
+        <div id="container">
+            <main>
+
+<h1>Create an OCurrent Plugin</h1>
+
+<p>Plugins for OCurrent are useful modules which provide a specific functionality using the underlying OCurrent primitives in order to do things like caching and automatic component generation.</p>
+<p>If you have worked through the other sections may already be familiar with some of the like:</p>
+<ul>
+<li>The <code>Docker</code> plugin for pulling, building and running docker images.</li>
+<li>The <code>Github</code> plugin for authenticating and using the Github API (the newer <em>GraphQL</em> one).</li>
+<li>The <code>Git</code> plugin for working with git repositories and being able to <code>fetch</code> from them.</li>
+</ul>
+<p>Here we will look at (a) the underlying primitives OCurrent exposes for building plugins and (b) building a <a href="https://about.gitlab.com/">Gitlab</a> plugin.</p>
+<h2 id="summury">Summury</h2>
+<p>In the <a href="/introduction-to-incrementalism-in-ocurrent">opening section</a> we looked at foundational building blocks upon which OCurrent is built. In this section we will explore in more depth the interface must users will interact with when building their own OCurrent plugins including:</p>
+<ul>
+<li>Caching</li>
+<li>Monitoring</li>
+<li>Terms</li>
+</ul>
+<p>Each of these will then be used when we build the plugin in the next part of this tutorial.</p>
+<h2 id="the-current-module">The Current Module</h2>
+<p>The <code>Current</code> module provides a lot of the functionality for glueing different parts of your plugin together. For example the <code>map</code> function.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="o">#</span> <span class="o">#</span><span class="n">require</span> <span class="s2">&#34;current&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">#</span> <span class="nn">Current</span><span class="p">.</span><span class="n">return</span>
+</span></span><span class="line"><span class="cl"><span class="o">-</span> <span class="o">:</span> <span class="o">?</span><span class="n">label</span><span class="o">:</span><span class="kt">string</span> <span class="o">-&gt;</span> <span class="k">&#39;</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="k">&#39;</span><span class="n">a</span> <span class="nn">Current</span><span class="p">.</span><span class="n">term</span> <span class="o">=</span> <span class="o">&lt;</span><span class="k">fun</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="o">#</span> <span class="nn">Current</span><span class="p">.</span><span class="n">map</span>
+</span></span><span class="line"><span class="cl"><span class="o">-</span> <span class="o">:</span> <span class="o">(</span><span class="k">&#39;</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="k">&#39;</span><span class="n">b</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="k">&#39;</span><span class="n">a</span> <span class="nn">Current</span><span class="p">.</span><span class="n">term</span> <span class="o">-&gt;</span> <span class="k">&#39;</span><span class="n">b</span> <span class="nn">Current</span><span class="p">.</span><span class="n">term</span> <span class="o">=</span> <span class="o">&lt;</span><span class="k">fun</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="o">#</span> <span class="nn">Current</span><span class="p">.</span><span class="o">(</span><span class="n">return</span> <span class="s2">&#34;hello &#34;</span> <span class="o">|&gt;</span> <span class="n">map</span> <span class="o">((</span> <span class="o">^</span> <span class="o">)</span> <span class="s2">&#34;world&#34;</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl"><span class="o">-</span> <span class="o">:</span> <span class="kt">string</span> <span class="nn">Current</span><span class="p">.</span><span class="n">term</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">abstr</span><span class="o">&gt;</span>
+</span></span></code></pre></div><h3 id="jobs-in-ocurrent">Jobs in OCurrent</h3>
+<p>A <code>Job.t</code> in OCurrent is exactly that, a task to be run. It carries about with it a lot of additional information for OCurrent to use such as its <code>priority</code> and its <code>start_time</code>.</p>
+<h2 id="ocurrent-caching">OCurrent Caching</h2>
+<p>Caching is an important aspects to OCurrent pipelines. It can help reduce the amount of recomputation needed even if some input changes and it can really help for complex or lengthy operations (like pulling big docker images). In order to cache things we need to use the <code>Make</code> functor.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="o">#</span> <span class="o">#</span><span class="n">require</span> <span class="s2">&#34;current.cache&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">#</span> <span class="o">#</span><span class="n">show</span> <span class="nn">Current_cache</span><span class="p">.</span><span class="nc">Make</span>
+</span></span><span class="line"><span class="cl"><span class="k">module</span> <span class="nc">Make</span> <span class="o">:</span>
+</span></span><span class="line"><span class="cl">  <span class="k">functor</span> <span class="o">(</span><span class="nc">B</span> <span class="o">:</span> <span class="nn">Current_cache</span><span class="p">.</span><span class="nn">S</span><span class="p">.</span><span class="nc">BUILDER</span><span class="o">)</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">sig</span>
+</span></span><span class="line"><span class="cl">      <span class="k">val</span> <span class="n">get</span> <span class="o">:</span>
+</span></span><span class="line"><span class="cl">        <span class="o">?</span><span class="n">schedule</span><span class="o">:</span><span class="nn">Current_cache</span><span class="p">.</span><span class="nn">Schedule</span><span class="p">.</span><span class="n">t</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nn">B</span><span class="p">.</span><span class="n">t</span> <span class="o">-&gt;</span> <span class="nn">B</span><span class="p">.</span><span class="nn">Key</span><span class="p">.</span><span class="n">t</span> <span class="o">-&gt;</span> <span class="nn">B</span><span class="p">.</span><span class="nn">Value</span><span class="p">.</span><span class="n">t</span> <span class="nn">Current</span><span class="p">.</span><span class="nn">Primitive</span><span class="p">.</span><span class="n">t</span>
+</span></span><span class="line"><span class="cl">      <span class="k">val</span> <span class="n">invalidate</span> <span class="o">:</span> <span class="nn">B</span><span class="p">.</span><span class="nn">Key</span><span class="p">.</span><span class="n">t</span> <span class="o">-&gt;</span> <span class="kt">unit</span>
+</span></span><span class="line"><span class="cl">      <span class="k">val</span> <span class="n">reset</span> <span class="o">:</span> <span class="n">db</span><span class="o">:</span><span class="kt">bool</span> <span class="o">-&gt;</span> <span class="kt">unit</span>
+</span></span><span class="line"><span class="cl">    <span class="k">end</span>
+</span></span></code></pre></div><p>From the signature of the returned module you can see we get something very cache-like with function for resetting, invalidating and getting items from our cache. But in order to have our cache we need to provide a builder.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="o">#</span> <span class="o">#</span><span class="n">show</span> <span class="nn">Current_cache</span><span class="p">.</span><span class="nn">S</span><span class="p">.</span><span class="nc">BUILDER</span>
+</span></span><span class="line"><span class="cl"><span class="k">module</span> <span class="k">type</span> <span class="nc">BUILDER</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">  <span class="k">sig</span>
+</span></span><span class="line"><span class="cl">    <span class="k">type</span> <span class="n">t</span>
+</span></span><span class="line"><span class="cl">    <span class="k">val</span> <span class="n">id</span> <span class="o">:</span> <span class="kt">string</span>
+</span></span><span class="line"><span class="cl">    <span class="k">module</span> <span class="nc">Key</span> <span class="o">:</span> <span class="nn">Current_cache</span><span class="p">.</span><span class="nn">S</span><span class="p">.</span><span class="nc">WITH_DIGEST</span>
+</span></span><span class="line"><span class="cl">    <span class="k">module</span> <span class="nc">Value</span> <span class="o">:</span> <span class="nn">Current_cache</span><span class="p">.</span><span class="nn">S</span><span class="p">.</span><span class="nc">WITH_MARSHAL</span>
+</span></span><span class="line"><span class="cl">    <span class="k">val</span> <span class="n">build</span> <span class="o">:</span> <span class="n">t</span> <span class="o">-&gt;</span> <span class="nn">Current</span><span class="p">.</span><span class="nn">Job</span><span class="p">.</span><span class="n">t</span> <span class="o">-&gt;</span> <span class="nn">Key</span><span class="p">.</span><span class="n">t</span> <span class="o">-&gt;</span> <span class="nn">Value</span><span class="p">.</span><span class="n">t</span> <span class="nn">Current</span><span class="p">.</span><span class="n">or_error</span> <span class="nn">Lwt</span><span class="p">.</span><span class="n">t</span>
+</span></span><span class="line"><span class="cl">    <span class="k">val</span> <span class="n">pp</span> <span class="o">:</span> <span class="nn">Key</span><span class="p">.</span><span class="n">t</span> <span class="nn">Fmt</span><span class="p">.</span><span class="n">t</span>
+</span></span><span class="line"><span class="cl">    <span class="k">val</span> <span class="n">auto_cancel</span> <span class="o">:</span> <span class="kt">bool</span>
+</span></span><span class="line"><span class="cl">  <span class="k">end</span>
+</span></span></code></pre></div><p>There are different aspects to our builder than we can see. Firstly, some configuration parameters:</p>
+<ul>
+<li><code>id</code> &ndash; a unique <code>id</code> for our <code>BUILDER</code></li>
+<li><code>auto_cancel</code> &ndash; a parameter which allows you to specify if an operation should be cancelled if no longer needed (<code>true</code>) or if only a user should be able to do it (<code>false</code>).</li>
+</ul>
+<p>The <code>pp</code> function is just the standard <code>Format</code> style pretty-printing function.</p>
+<p>The more interesting parts are the modules <code>Key</code> and <code>Value</code> and finally the <code>build</code> function.</p>
+<h3 id="the-key-module">The Key Module</h3>
+<p>The Key module is used for looking up your entry in the cache much like a Hashtable. It must look like a <code>S.WITH_DIGEST</code>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="o">#</span> <span class="o">#</span><span class="n">show</span> <span class="nn">Current_cache</span><span class="p">.</span><span class="nn">S</span><span class="p">.</span><span class="nc">WITH_DIGEST</span>
+</span></span><span class="line"><span class="cl"><span class="k">module</span> <span class="k">type</span> <span class="nc">WITH_DIGEST</span> <span class="o">=</span> <span class="k">sig</span> <span class="k">type</span> <span class="n">t</span> <span class="k">val</span> <span class="n">digest</span> <span class="o">:</span> <span class="n">t</span> <span class="o">-&gt;</span> <span class="kt">string</span> <span class="k">end</span>
+</span></span></code></pre></div><p>Which is a very simple module with one function that takes a key value (<code>t</code>) and returns a unique string identifying that value in the cache.</p>
+<p>Often a nice way to do this is to convert you OCaml type to JSON with something like <a href="https://github.com/ocaml-ppx/ppx_deriving_yojson">ppx_deriving_yojson</a>.</p>
+<h3 id="the-value-module">The Value Module</h3>
+<p>The value module is whatever the cache is storing and must look like a <code>S.WITH_MARSHAL</code>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="o">#</span> <span class="o">#</span><span class="n">show</span> <span class="nn">Current_cache</span><span class="p">.</span><span class="nn">S</span><span class="p">.</span><span class="nc">WITH_MARSHAL</span>
+</span></span><span class="line"><span class="cl"><span class="k">module</span> <span class="k">type</span> <span class="nc">WITH_MARSHAL</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">  <span class="k">sig</span> <span class="k">type</span> <span class="n">t</span> <span class="k">val</span> <span class="n">marshal</span> <span class="o">:</span> <span class="n">t</span> <span class="o">-&gt;</span> <span class="kt">string</span> <span class="k">val</span> <span class="n">unmarshal</span> <span class="o">:</span> <span class="kt">string</span> <span class="o">-&gt;</span> <span class="n">t</span> <span class="k">end</span>
+</span></span></code></pre></div><p>Another relatively simple module but this time two functions are necessary &ndash; <code>marshal</code> and <code>unmarshal</code>. You can think of these functions like <code>save</code> and <code>load</code>. You want to be able to turn your value type <code>t</code> into a <code>string</code> and then reverse the process. The idea being <code>unmarshal (marshal t) = t</code>.</p>
+<h3 id="the-build-function">The Build Function</h3>
+<p>Hopefully by exploring these two functions you get a good understanding of how the caching is going to work. The last step is the build function. This takes some configuration parameters but is mostly about generating a value from a key.</p>
+<p>Let&rsquo;s have a look at how the <code>Git</code> plugin does it &ndash; see <a href="https://github.com/ocurrent/ocurrent/blob/b5391e4ad2c1fd5c4de79665bd536559cec40d0d/plugins/git/current_git.ml#L22">the repository here</a>.</p>
+<p>Ignore the code for working out the <code>level</code> for now, you see that a task is given to the supplied OCurrent <code>job</code>. The first thing it does is lock the repository that the <code>key</code> refers too. Then it tries to make a local copy if one does not already exist, it does so using <code>git_clone</code>. It then ensures the right <code>commit</code> is available, if not then it will be fetched before finally returning the commit.</p>
+ </main>
+
+            <footer>
+    <a href="https://tarides.com/">
+        <img
+            src="/logos/tarides.png"
+            alt="Tarides logo"
+        />
+    </a>
+    <div id="license">
+        <p>
+            OCurrent is developed and maintained by Tarides for use in the OCaml open-source
+            community.
+        </p>
+        <p>
+            © 2022, the OCurrent authors. Distributed under the
+            <a href="https://github.com/ocurrent/ocurrent/blob/master/LICENSE">Apache-2.0</a>
+            license.
+        </p>
+    </div>
+</footer>
+
+        </div>
+    </body>
+</html>
